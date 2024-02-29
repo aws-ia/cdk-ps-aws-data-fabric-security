@@ -1,0 +1,155 @@
+// Include any predeployment steps here, such as signing up for a Marketplace AMI or making any changes to a partner account. If there are no predeployment steps, leave this file empty.
+
+== Predeployment steps
+
+[%hardbreaks]
+. Install Node.js 18.0.0 or later. For more information, refer to https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/setting-up-node-on-ec2-instance.html[Tutorial: Setting Up Node.js on an Amazon EC2 Instance^].
+. Install AWS Cloud Development Kit (AWS CDK) using Node Package Manager (npm).
++
+[,bash]
+----
+npm install -g aws-cdk
+----
++
+For more information, refer to https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html[Getting started with the AWS CDK^].
+
+. Load your AWS credentials into your development environment. You can do this with the AWS Command Line Interface (AWS CLI). For more information, refer to https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html#getting_started_auth[Authentication with AWS^].
+. Obtain licenses for Immuta and RadiantOne. For more information, refer to the https://www.immuta.com/[Immuta^] and https://www.radiantlogic.com/[Radiant Logic^] websites, respectively.
++
+NOTE: After purchasing an Immuta license, you will receive a user name and password from Immuta. Enter the Immuta user name and password for the `Instance.Username` and `Instance.Password` parameters in `dev.yaml` when configuring for deployment.
+
+== Deployment steps
+[%hardbreaks]
+. Navigate to the {partner-product-name} root folder.
++
+[,bash]
+----
+   cd <path>/quickstart-aws-data-fabric-security
+----
+. Install all packages.
++
+[,bash]
+----
+   npm ci
+----
+. Open the file `<path>/quickstart-aws-data-fabric-security/config/dev.yaml`.
+. Edit the variables to customize the deployment for your environment. For variable details, refer to <<Deployment configuration>>, later in this guide.
+. Run the following command to bootstrap your AWS environment.
++
+[,bash]
+----
+cdk bootstrap aws://<ACCOUNT_ID>/<REGION>
+----
+. Deploy the solution.
++
+[,bash]
+----
+   bash dfs-solution-install.sh
+----
++
+NOTE: The solution takes about 20 minutes to deploy.
+
+. Once deployment is complete, Copy the output from the deployment and save it for later use. The following is an example of output for `DataFabricStack`.
++
+[,bash]
+----
+DataFabricStack.ExportsOutputFnGetAttdatafabricsecuritycorestackNestedStackdatafabricsecuritycorestackNestedStackResource0E29B9E3OutputsDataFabricStackdatafabricsecuritycorestackdatafabricsecurityhostedzone8A7A666ERef412EFD8E = Z08846025FQL5G34G3RSN
+DataFabricStack.ExportsOutputFnGetAttdatafabricsecuritycorestackNestedStackdatafabricsecuritycorestackNestedStackResource0E29B9E3OutputsDataFabricStackdatafabricsecuritycorestackdatafabricsecurityvpc3D851B3DRef8F8BED20 = vpc-0k86a8r6550x470sd
+DataFabricStack.ExportsOutputFnGetAttdatafabricsecuritycorestackNestedStackdatafabricsecuritycorestackNestedStackResource0E29B9E3OutputsDataFabricStackdatafabricsecuritycorestackdatafabricsecurityvpcPrivateSubnet1SubnetD144D644RefCA2E36A0 = subnet-05c58c03655b07e96
+DataFabricStack.ExportsOutputFnGetAttdatafabricsecuritycorestackNestedStackdatafabricsecuritycorestackNestedStackResource0E29B9E3OutputsDataFabricStackdatafabricsecuritycorestackdatafabricsecurityvpcPrivateSubnet2SubnetC59876D4RefB9149745 = subnet-0355b2b6384b7a984
+DataFabricStack.ExportsOutputFnGetAttdatafabricsecuritycorestackNestedStackdatafabricsecuritycorestackNestedStackResource0E29B9E3OutputsDataFabricStackdatafabricsecuritycorestackdatafabricsecurityvpcPublicSubnet1Subnet364D7A24RefCE325DB3 = subnet-0b384f6b1a3cdee0d
+DataFabricStack.ExportsOutputFnGetAttdatafabricsecuritycorestackNestedStackdatafabricsecuritycorestackNestedStackResource0E29B9E3OutputsDataFabricStackdatafabricsecuritycorestackdatafabricsecurityvpcPublicSubnet2SubnetE8E85537RefFE30536F = subnet-09eaf0abdec1vf6e2
+DataFabricStack.ExportsOutputFnGetAttdatafabricsecuritykeyEF30DCE5Arn6660AD21 = arn:aws-us-gov:kms:us-gov-west-1:123456789012:key/a5n6bs39-8yfr-7tww-m544-57bk737tay0f
+DataFabricStack.ExportsOutputRefdatafabricsecuritykubectl66B18AE6595A4A51 = arn:aws-us-gov:lambda:us-gov-west-1:123456789012:layer:datafabricsecuritykubectl44B16AB6:5
+----
++
+The following is an example of output for `DataFabricStack/data-fabric-security-eks-cluster`.
++
+[,bash]
+----
+DataFabricStackdatafabricsecurityeksclusterCA551CED.ClusterArn = arn:aws-us-gov:eks:us-gov-west-1:123456789012:cluster/data-fabric-security-eks-cluster
+DataFabricStackdatafabricsecurityeksclusterCA551CED.EKSAdminRole = arn:aws-us-gov:iam::123456789012:role/DataFabricStackdatafabric-datafabricsecurityeksclu-16OBLBQDF1383
+DataFabricStackdatafabricsecurityeksclusterCA551CED.datafabricsecurityadminplatformteamteamadmin = arn:aws-us-gov:iam::123456789012:role/Admin
+DataFabricStackdatafabricsecurityeksclusterCA551CED.datafabricsecurityeksclusterClusterName6BCF1F10 = data-fabric-security-eks-cluster
+DataFabricStackdatafabricsecurityeksclusterCA551CED.datafabricsecurityeksclusterConfigCommand978D3532 = aws eks update-kubeconfig --name data-fabric-security-eks-cluster --region us-gov-west-1 --role-arn arn:aws-us-gov:iam::123456789012:role/DataFabricStackdatafabric-datafabricsecurityeksclu-14T5IMKRMS7JT
+DataFabricStackdatafabricsecurityeksclusterCA551CED.datafabricsecurityeksclusterGetTokenCommand1D6ABA05 = aws eks get-token --cluster-name data-fabric-security-eks-cluster --region us-gov-west-1 --role-arn arn:aws-us-gov:iam::123456789012:role/DataFabricStackdatafabric-datafabricsecurityeksclu-14T5IMKRMS7JT
+----
+
+=== Deployment configuration
+
+Edit the variables in `config/dev.yaml` to customize the deployment for your environment.
+
+==== Global parameters
+
+[%header,cols="2,6,1"]
+|===
+|Parameter |Description |Default
+|AWSAccountID |AWS account ID. |`123456789012`
+|AWSRegion |AWS Region. |`us-east-1`
+|Domain |Domain name. |`company.com`
+|===
+
+==== Networking parameters
+
+[%header,cols="2,6,1"]
+|===
+| Parameter
+| Description
+| Default
+
+| VpcId     | Enter an existing VPC ID or leave blank (`""`) to create a new VPC. | `"vpc-123456789abcdefgh"`
+| SubnetA   | Private subnet in Availability Zone 1. To create a new subnet, delete default entry and leave blank (`""`).                | `"subnet-123456789abcdefg"`
+| SubnetB   | Private subnet in Availability Zone 2. To create a new subnet, delete default entry and leave blank (`""`).                | `"subnet-abcdefgh123456789"`
+| MaxAZs    | Maximum number of Availability Zones.                                                            | `"2"`
+|===
+
+==== Amazon EKS parameters
+
+[%header,cols="2,6,1"]
+|===
+| Parameter
+| Description
+| Default
+
+| Clustername | Custom name for the EKS cluster. | `"data-fabric-security-eks-cluster"`
+| EKSAdminRole | Amazon Resource Name (ARN) of an existing IAM role in the AWS account with `AmazonEKSClusterPolicy` attached. Used to create the EKS cluster, this role is automatically granted `system:masters` permissions in the cluster's role-based access control (RBAC) configuration in the Amazon EKS control plane. | `"arn:aws-us-gov:iam::123456789012:role/aws-service-role/eks.amazonaws.com/EKSAdminRole"`
+| EKSEndpointAccess | Amazon EKS endpoint access type (`"PUBLIC"`, `"PRIVATE"`, or `""` for both). | `"PRIVATE"`
+| InstanceType      | EKS cluster instance type.                                               | `"m5.large"`
+| ClusterSize       | EKS cluster size.                                                         | `"3"`
+|===
+
+==== Immuta parameters
+
+[%header,cols="2,6,1"]
+|===
+| Parameter
+| Description
+| Default
+
+| Deploy                               | Enter `false` to not deploy Immuta.   | `true`
+| ChartVersion                         | Immuta Helm Chart version.         | `"4.95"`
+| ImmutaVersion                        | Version of Immuta to install.      | `"2022.4.3"`
+| ImageTag                             | Docker image tag.                  | `"2022.4.3"`
+| Instance.Username                    | Immuta instance user name.          | `"USERNAME"`
+| Instance.Password                    | Immuta instance password.          | `"PASSWORD"`
+| Database.ImmutaDBPassword            | Immuta database password.          | `"SECRET"`
+| Database.ImmutaDBSuperUserPassword   | Immuta database super user password.       | `"SECRET"`
+| Database.ImmutaDBReplicationPassword | Immuta database replication password.     | `"SECRET"`
+| Database.ImmutaDBPatroniApiPassword  | Immuta database Patroni API password .    | `"SECRET"`
+| Query.ImmutaQEPassword               | Query engine password.            | `"SECRET"`
+| Query.ImmutaQESuperUserPassword      | Query engine super user password.  | `"SECRET"`
+| Query.ImmutaQEReplicationPassword    | Query engine replication password. | `"SECRET"`
+| Query.ImmutaQEPatroniApiPassword     | Query engine Patroni API password. | `"SECRET"`
+|===
+
+==== RadiantOne parameters
+
+[%header,cols="2,6,1"]
+|===
+| Parameter    | Description                                 | Default
+| Deploy       | Enter `false` to not deploy RadiantOne.             | `true`
+| ZkImageTag | Zookeeper image tag.                   | `"3.5.8"`
+| FidImageTag | FID image tag.                        | `"7.4.4"`
+| License      | RadiantOne license.                  | `"\\{rlib\\}xXXXXXXXXXXXX"`
+| RootPassword | Root administrator user password. | `"Password1!"`
+|===

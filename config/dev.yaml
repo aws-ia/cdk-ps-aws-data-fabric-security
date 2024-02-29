@@ -1,0 +1,43 @@
+AWSAccountID: "123456789012"
+AWSRegion: "us-east-1"
+
+Domain: "company.com"
+
+Networking:
+  VpcId: "vpc-123456789abcdefgh"
+  SubnetA: "subnet-123456789abcdefgh"
+  SubnetB: "subnet-abcdefgh123456789"
+  MaxAZs: 2                                     # Default: 2 (Valid inputs are 2 or 3)
+
+EKS:
+  ClusterName: "data-fabric-security-eks-cluster"
+  EKSAdminRole: "arn:aws-us-gov:iam::123456789012:role/aws-service-role/eks.amazonaws.com/EKSAdminRole"
+  EKSEndpointAccess: "PRIVATE"      # Default: "" (Valid inputs are "PUBLIC", "PRIVATE", or "" for both)
+  InstanceType: "m5.large"                 # Default: "m5.large"
+  ClusterSize: 3
+
+Immuta:
+  Deploy: true
+  ChartVersion: "4.13.2"
+  ImmutaVersion: "2023.4.0"
+  ImageTag: "2023.4.0"
+  Instance:
+    Username: "USERNAME"
+    Password: "PASSWORD"
+  Database:
+    ImmutaDBPassword: "SECRET"
+    ImmutaDBSuperUserPassword: "SECRET"
+    ImmutaDBReplicationPassword: "SECRET"
+    ImmutaDBPatroniApiPassword: "SECRET"
+  Query:
+    ImmutaQEPassword: "SECRET"
+    ImmutaQESuperUserPassword: "SECRET"
+    ImmutaQEReplicationPassword: "SECRET"
+    ImmutaQEPatroniApiPassword: "SECRET"
+
+RadiantLogic:
+  Deploy: true
+  ZkImageTag: "3.5.8"
+  FidImageTag: "8.0.0"
+  License: "\\{rlib\\}xXXXXXXXXXXXX/XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+  RootPassword: "Password1!"

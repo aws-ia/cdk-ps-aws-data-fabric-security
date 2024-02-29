@@ -1,0 +1,12 @@
+:partner-solution-project-name: cdk-ps-aws-data-fabric-security
+:partner-solution-github-org: aws-ia
+:partner-product-name: AWS DataFabric Security
+:partner-product-short-name: DataFabric Security
+:partner-company-name: Immuta and Radiant Logic
+:doc-month: April
+:doc-year: 2023
+//:partner-contributors: John Smith, {partner-company-name}
+//:other-contributors: Akua Mansa, Trek10
+:aws-contributors: Jenifer Wang, Solution Acceleration Team (DoD)
+:aws-ia-contributors: Troy Ameigh, AWS Integration & Automation team
+// :private_repo:

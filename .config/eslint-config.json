@@ -11,20 +11,34 @@
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
     "prettier",
-    "plugin:import/recommended"
+    "plugin:import/recommended",
+    "plugin:import/typescript"
   ],
   "ignorePatterns": [
     "**/node_modules/**",
     "/built/**",
-    "/tests/**"
+    "/tests/**",
+    "**/jest.config.js"
   ],
-  "rules": {
+  "env": {
+    "jest": true
+  },
+  "rules":
+  {
+    "@typescript-eslint/no-explicit-any": "off",
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": ["warn"],
     "react/jsx-props-no-spreading": "off",
     "import/prefer-default-export": "off",
+    "import/no-unresolved": [
+      2,
+      { "caseSensitive": false }
+    ],
     "import/extensions": [
       "error",
       "ignorePackages",
       {
+        "": "never",
         "js": "never",
         "jsx": "never",
         "ts": "never",
@@ -65,8 +79,40 @@
         ]
       }
     ]
-  }
+  },
+  "settings": {
+    "import/parsers": {
+      "@typescript-eslint/parser" : [
+        ".ts",
+        ".tsx"
+      ]
+    },
+    "import/resolver": {
+      "typescript": {
+        "alwaysTryTypes": true,
+        "project": [
+          "*/tsconfig.json",
+          "tsconfig.json"
+        ]
+      },
+      "node":{
+        "alwaysTryTypes": true
+      }
+    }
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/*.spec.js",
+        "**/*.spec.jsx"
+      ],
+      "env": {
+        "jest": true
+      }
+    }
+  ]
 }
+
 
 
 

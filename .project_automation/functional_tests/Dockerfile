@@ -14,3 +14,6 @@ RUN yum install -y yum-utils && yum-config-manager --add-repo https://cli.github
 
 ## Install AWS CDK
 RUN source ~/.bashrc && npm install -g aws-cdk
+
+## Install Asciidoctoer
+RUN gem install asciidoctor

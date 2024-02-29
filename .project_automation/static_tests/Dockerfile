@@ -11,7 +11,7 @@ RUN . ~/.nvm/nvm.sh && source ~/.bashrc && nvm install node && nvm use node
 
 # Install ESLint
 RUN npm config set legacy-peer-deps true
-RUN source ~/.bashrc && npm i -g eslint @typescript-eslint/eslint-plugin@latest prettier eslint-plugin-prettier@latest eslint-plugin-import @typescript-eslint/parser --save-dev --legacy-peer-deps
+RUN source ~/.bashrc && npm i -g eslint @typescript-eslint/eslint-plugin@latest prettier eslint-plugin-prettier@latest eslint-config-prettier eslint-plugin-import @typescript-eslint/parser --save-dev --legacy-peer-deps
 
 # Install golangci-lint
 # binary will be $(go env GOPATH)/bin/golangci-lint

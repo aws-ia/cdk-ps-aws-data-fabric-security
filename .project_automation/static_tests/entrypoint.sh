@@ -21,6 +21,7 @@ cp ${PROJECT_PATH}/.config/.eslintignore .
 npm install @typescript-eslint/eslint-plugin@latest --save-dev
 npm i prettier eslint-plugin-import @typescript-eslint/parser --save-dev --legacy-peer-deps
 npm i eslint-plugin-prettier@latest --save-dev
+npm i eslint-config-prettier@latest --save-dev
 npm i eslint
 npx eslint ${PROJECT_PATH}/ --no-eslintrc --config ${PROJECT_PATH}/.config/eslint-config.json --quiet --no-error-on-unmatched-pattern
 

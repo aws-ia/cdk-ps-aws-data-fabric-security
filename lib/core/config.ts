@@ -1,3 +1,4 @@
+
 import * as fs from 'fs';
 import Ajv from "ajv";
 import * as yaml from 'js-yaml';
@@ -49,7 +50,8 @@ export class Config {
      *
      * @param configPath - The config path.
      */
-    public async Load(configPath: string) {
+    public async Load(configPath: string){
+        // eslint-disable-next-line
         let localConfig: any = yaml.load(fs.readFileSync(configPath, "utf8"));
         const config = this.validateConfig(localConfig);
         this._config = config;
@@ -62,6 +64,7 @@ export class Config {
      * @returns - The configuration input.
      */
     private validateConfig(unparsedConfig: any): any {
+        // eslint-disable-next-line
         let ajv = new Ajv();
         const isValid = ajv.validate(this._schema, unparsedConfig);
 

@@ -105,6 +105,7 @@ export class RadiantLogicStack extends cdk.NestedStack implements ILambdaDeploym
    * @returns The policy document.
    */
   createDeployPolicy(props: RadiantLogicStackProps): iam.PolicyDocument {
+      // eslint-disable-next-line
     let deployParameters: LambdaDeployParameters = {
       resourceName: this.radiantlogicId('deploy-policy'),
       clusterResources: [props.cluster.clusterArn],
@@ -125,6 +126,7 @@ export class RadiantLogicStack extends cdk.NestedStack implements ILambdaDeploym
    * @returns The policy document.
    */
   createDestroyPolicy(props: RadiantLogicStackProps): iam.PolicyDocument {
+      // eslint-disable-next-line
     let destroyParameters: LambdaDestroyParameters = {
       resourceName: this.radiantlogicId('destroy-policy'),
       clusterResources: [props.cluster.clusterArn],
@@ -231,6 +233,7 @@ export class RadiantLogicStack extends cdk.NestedStack implements ILambdaDeploym
    * @param destroyFunction - Lambda function to uninstall.
    */
   createBootstrap(deployFunction: lambda.Function, destroyFunction: lambda.Function): void {
+      // eslint-disable-next-line
     let bootstrapRole = new iam.Role(this, this.radiantlogicId('bootstrap-role'), {
       assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
     });

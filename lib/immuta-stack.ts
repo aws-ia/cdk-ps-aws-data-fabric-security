@@ -105,6 +105,7 @@ export class ImmutaStack extends cdk.NestedStack implements ILambdaDeploymentSta
    * @returns The policy document.
    */
   createDeployPolicy(props: ImmutaStackProps): iam.PolicyDocument {
+    // eslint-disable-next-line
     let deployParameters: LambdaDeployParameters = {
       resourceName: this.immutaId('deploy-policy'),
       clusterResources: [props.cluster.clusterArn],
@@ -125,6 +126,7 @@ export class ImmutaStack extends cdk.NestedStack implements ILambdaDeploymentSta
    * @returns The policy document.
    */
   createDestroyPolicy(props: ImmutaStackProps): iam.PolicyDocument {
+       // eslint-disable-next-line
     let destroyParameters: LambdaDestroyParameters = {
       resourceName: this.immutaId('destroy-policy'),
       clusterResources: [props.cluster.clusterArn],
@@ -242,6 +244,7 @@ export class ImmutaStack extends cdk.NestedStack implements ILambdaDeploymentSta
    * @param destroyFunction - Lambda function to uninstall.
    */
   createBootstrap(deployFunction: lambda.Function, destroyFunction: lambda.Function): void {
+      // eslint-disable-next-line
     let bootstrapRole = new iam.Role(this, this.immutaId('bootstrap-role'), {
       assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
     });

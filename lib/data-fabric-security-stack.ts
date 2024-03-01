@@ -74,6 +74,7 @@ export class DataFabricSecurityStack extends NestedStack {
         vpcId: props.vpc.vpcId,
         isDefault: false,
       });
+      // eslint-disable-next-line
       for (let i in props.vpc.subnetIds) {
         this.subnets.push(ec2.Subnet.fromSubnetId(this,`subnet${i}` , props.vpc.subnetIds[i]))
       }

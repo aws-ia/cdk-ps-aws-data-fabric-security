@@ -1,6 +1,7 @@
 import * as fs from 'fs';
-import * as yaml from 'js-yaml';
 import Ajv from "ajv";
+import * as yaml from 'js-yaml';
+
 
 /**
  * Configuration class for the solution.
@@ -23,7 +24,7 @@ export class Config {
 
     /**
      * Constructor to load configuration.
-     * 
+     *
      * @param schemaPath - File path of schema.
      */
     constructor(schemaPath?: string) {
@@ -36,7 +37,7 @@ export class Config {
 
     /**
      * Gets the current configuration.
-     * 
+     *
      * @returns The instance of Config.
      */
     public static get Current(): Config {
@@ -45,7 +46,7 @@ export class Config {
 
     /**
      * Load the configuration file.
-     * 
+     *
      * @param configPath - The config path.
      */
     public async Load(configPath: string) {
@@ -56,7 +57,7 @@ export class Config {
 
     /**
      * Validate the configuration inputs.
-     * 
+     *
      * @param unparsedConfig - The configuration input.
      * @returns - The configuration input.
      */
@@ -73,7 +74,7 @@ export class Config {
 
     /**
      * Read in property.
-     * 
+     *
      * @param propertyName - Name of the property.
      * @returns Property value.
      */
@@ -173,7 +174,7 @@ interface Instance {
   Password: string;
 }
 
-/** 
+/**
  * Database properties
  */
 interface Database {

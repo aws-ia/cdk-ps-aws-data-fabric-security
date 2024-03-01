@@ -1,9 +1,9 @@
 import { NestedStack, RemovalPolicy } from "aws-cdk-lib";
-import { Construct } from "constructs";
 
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
-import * as route53 from "aws-cdk-lib/aws-route53";
 import * as logs from "aws-cdk-lib/aws-logs";
+import * as route53 from "aws-cdk-lib/aws-route53";
+import { Construct } from "constructs";
 
 import { DataFabricSecurityStackProps } from "./props/stack-props";
 
@@ -38,7 +38,7 @@ export class DataFabricSecurityStack extends NestedStack {
 
   /**
    * Constructor of the Data Fabric Solution stack.
-   * 
+   *
    * @param scope - Parent of this stack.
    * @param id - Construct ID of this stack.
    * @param props - Properties of this stack.
@@ -48,7 +48,7 @@ export class DataFabricSecurityStack extends NestedStack {
 
     this.coreId = (id: string) => `${props.prefix}-${id}`;
     this.commonName = props.prefix;
-    
+
     // Create a VPC if there was no VPC ID provided.
     if(props.vpc.vpcId == "" && !props.vpc.vpcId) {
       const cwLogs = new logs.LogGroup(this, 'Log', {
@@ -57,7 +57,7 @@ export class DataFabricSecurityStack extends NestedStack {
       });
 
       this.vpc = new ec2.Vpc(this, this.coreId('vpc'), {
-        vpcName: this.coreId('vpc'), 
+        vpcName: this.coreId('vpc'),
         maxAzs: props.vpc.maxAZs,
         flowLogs: {
           's3': {

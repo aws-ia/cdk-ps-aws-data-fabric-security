@@ -1,21 +1,20 @@
+import * as path from "path";
 import * as cdk from 'aws-cdk-lib';
-import { Construct } from "constructs";
 
-import * as lambda from "aws-cdk-lib/aws-lambda";
-import * as iam from "aws-cdk-lib/aws-iam";
 import * as ec2 from "aws-cdk-lib/aws-ec2";
+import * as iam from "aws-cdk-lib/aws-iam";
+import * as lambda from "aws-cdk-lib/aws-lambda";
 import * as cr from "aws-cdk-lib/custom-resources";
 
-import { KubectlLayer } from "aws-cdk-lib/lambda-layer-kubectl";
 import { AwsCliLayer } from "aws-cdk-lib/lambda-layer-awscli";
+import { KubectlLayer } from "aws-cdk-lib/lambda-layer-kubectl";
+import { Construct } from "constructs";
 
-import * as path from "path";
-
-import { ImmutaStackProps } from "./props/stack-props";
-import { ILambdaDeploymentStack } from "./core/interface/lambda-deployment-stack";
 import { LambdaDeployParameters, LambdaDestroyParameters } from "./core/interface/lambda-deployment-parameters";
-import { LambdaDeploymentPolicies } from "./core/utilities/lambda-deployment-policies";
+import { ILambdaDeploymentStack } from "./core/interface/lambda-deployment-stack";
 import { CdkNagSuppressions } from "./core/utilities/cdk-nag-suppressions";
+import { LambdaDeploymentPolicies } from "./core/utilities/lambda-deployment-policies";
+import { ImmutaStackProps } from "./props/stack-props";
 
 /**
  * Immuta stack.
@@ -25,7 +24,7 @@ export class ImmutaStack extends cdk.NestedStack implements ILambdaDeploymentSta
    * Stack identifier.
    */
   private readonly immutaId: any;
-  
+
   /**
    * Lambda function install name.
    */
@@ -73,7 +72,7 @@ export class ImmutaStack extends cdk.NestedStack implements ILambdaDeploymentSta
 
   /**
   * Constructor of the Immuta stack.
-   * 
+   *
    * @param scope - Parent of this stack.
    * @param id - Construct ID of this stack.
    * @param props - Properties of this stack.
@@ -101,11 +100,12 @@ export class ImmutaStack extends cdk.NestedStack implements ILambdaDeploymentSta
 
   /**
    * Creates the policy for the Lambda function to install Immuta.
-   * 
+   *
    * @param props - Properties of the stack.
    * @returns The policy document.
    */
   createDeployPolicy(props: ImmutaStackProps): iam.PolicyDocument {
+    // eslint-disable-next-line
     let deployParameters: LambdaDeployParameters = {
       resourceName: this.immutaId('deploy-policy'),
       clusterResources: [props.cluster.clusterArn],
@@ -121,11 +121,12 @@ export class ImmutaStack extends cdk.NestedStack implements ILambdaDeploymentSta
 
    /**
    * Creates the policy for the Lambda function to uninstall Immuta.
-   * 
+   *
    * @param props - Properties of the stack.
    * @returns The policy document.
    */
   createDestroyPolicy(props: ImmutaStackProps): iam.PolicyDocument {
+       // eslint-disable-next-line
     let destroyParameters: LambdaDestroyParameters = {
       resourceName: this.immutaId('destroy-policy'),
       clusterResources: [props.cluster.clusterArn],
@@ -144,7 +145,7 @@ export class ImmutaStack extends cdk.NestedStack implements ILambdaDeploymentSta
 
   /**
    * Creates the Lambda function to install Immuta.
-   * 
+   *
    * @param props - Properties of the stack.
    * @returns The Lambda function.
    */
@@ -197,7 +198,7 @@ export class ImmutaStack extends cdk.NestedStack implements ILambdaDeploymentSta
 
   /**
    * Creates the Lambda function to uninstall Immuta.
-   * 
+   *
    * @param props - Properties of the stack.
    * @returns The Lambda function.
    */
@@ -238,11 +239,12 @@ export class ImmutaStack extends cdk.NestedStack implements ILambdaDeploymentSta
 
   /**
    * Creates the custom resource to respond to stack changes (create and delete events) by invoking Lambda functions.
-   * 
+   *
    * @param deployFunction - Lambda function to install.
    * @param destroyFunction - Lambda function to uninstall.
    */
   createBootstrap(deployFunction: lambda.Function, destroyFunction: lambda.Function): void {
+      // eslint-disable-next-line
     let bootstrapRole = new iam.Role(this, this.immutaId('bootstrap-role'), {
       assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
     });

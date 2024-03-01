@@ -1,15 +1,15 @@
-import { CfnOutput, Duration, RemovalPolicy } from "aws-cdk-lib";
-import { Construct } from "constructs";
-
-import * as eks from 'aws-cdk-lib/aws-eks';
-import * as ec2 from 'aws-cdk-lib/aws-ec2';
-import * as kms from 'aws-cdk-lib/aws-kms';
-import * as iam from 'aws-cdk-lib/aws-iam';
+import { KubectlV27Layer } from '@aws-cdk/lambda-layer-kubectl-v27';
 import * as blueprints from '@aws-quickstart/eks-blueprints';
 import { addons } from "@aws-quickstart/eks-blueprints";
 
-import { KubectlV27Layer } from '@aws-cdk/lambda-layer-kubectl-v27';
 import { ImportHostedZoneProvider } from "@aws-quickstart/eks-blueprints";
+import { CfnOutput, Duration, RemovalPolicy } from "aws-cdk-lib";
+
+import * as ec2 from 'aws-cdk-lib/aws-ec2';
+import * as eks from 'aws-cdk-lib/aws-eks';
+import * as iam from 'aws-cdk-lib/aws-iam';
+import * as kms from 'aws-cdk-lib/aws-kms';
+import { Construct } from "constructs";
 
 import { CdkNagSuppressions } from "./core/utilities/cdk-nag-suppressions";
 import { EksBlueprintsStackProps } from "./props/stack-props";
@@ -30,14 +30,14 @@ export class EksBlueprintsStack {
 
   /**
    * Constructor of the EKS Blueprints stack.
-   * 
+   *
    * @param scope - Parent of this stack.
    * @param id - Construct ID of this stack.
    * @param props - Properties of this stack.
    */
-  constructor(scope: Construct, id: string, props: EksBlueprintsStackProps) {  
+  constructor(scope: Construct, id: string, props: EksBlueprintsStackProps) {
     this.eksId = (id: string) => `${props.prefix}-${id}`;
-    
+
     // Set EKS endpoint access.
     const endpointAccess = props.endpointAccess;
     let access;
@@ -149,7 +149,7 @@ export class EksBlueprintsStack {
 
   /**
    * Get the EKS Blueprint.
-   * 
+   *
    * @returns The EKS Blueprint.
    */
   public getStack(): blueprints.EksBlueprint {
@@ -158,7 +158,7 @@ export class EksBlueprintsStack {
 
   /**
    * Generate cluster attributes as outputs.
-   * 
+   *
    * @param cluster - The EKS Cluster.
    */
   private generateOutputs(cluster : eks.ICluster): void {
@@ -182,7 +182,7 @@ export class EksBlueprintsStack {
   }
 
   /**
-   * Create cdk-nag suppressions for EKS-related with ServiceRole, DefaultPolicy, or NodeGroupRole. 
+   * Create cdk-nag suppressions for EKS-related with ServiceRole, DefaultPolicy, or NodeGroupRole.
    */
   private createEksCdkNagSuppressions() {
     for (const child of this.eksBuildStack.node.findAll()) {
@@ -208,21 +208,21 @@ export class EksBlueprintsStack {
     this.createEksCdkNagSuppressions();
 
     CdkNagSuppressions.createStackCdkNagSuppressions(
-      this.eksBuildStack, 
-      'AwsSolutions-KMS5', 
+      this.eksBuildStack,
+      'AwsSolutions-KMS5',
       'Suppressing and ignoring the initial default KMS key',
     );
-  
+
     CdkNagSuppressions.createResourceCdkNagSuppressions(
-      this.eksBuildStack.getClusterInfo().cluster, 
-      'AwsSolutions-IAM5', 
-      'Suppressing IAM wildcards defined by default when deploying EKS', 
+      this.eksBuildStack.getClusterInfo().cluster,
+      'AwsSolutions-IAM5',
+      'Suppressing IAM wildcards defined by default when deploying EKS',
     );
-  
+
     CdkNagSuppressions.createResourceCdkNagSuppressions(
-      this.eksBuildStack.getClusterInfo().cluster, 
-      'AwsSolutions-IAM4', 
-      'Only suppressing required EKS AWS Managed Policies', 
+      this.eksBuildStack.getClusterInfo().cluster,
+      'AwsSolutions-IAM4',
+      'Only suppressing required EKS AWS Managed Policies',
     );
   }
 

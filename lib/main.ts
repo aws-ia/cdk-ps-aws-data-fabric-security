@@ -1,16 +1,14 @@
 import * as cdk from 'aws-cdk-lib';
+import * as iam from "aws-cdk-lib/aws-iam";
 import { Construct } from "constructs";
 
+import { Config } from "./core/config";
+import { CdkNagSuppressions } from "./core/utilities/cdk-nag-suppressions";
 import { DataFabricSecurityStack } from "./data-fabric-security-stack";
 import { EksBlueprintsStack } from "./eks-blueprints-stack";
 import { ImmutaStack } from "./immuta-stack";
-import { RadiantLogicStack } from "./radiant-logic-stack";
-
 import { MainStackProps } from "./props/stack-props";
-import { Config } from "./core/config";
-import { CdkNagSuppressions } from "./core/utilities/cdk-nag-suppressions";
-
-import * as iam from "aws-cdk-lib/aws-iam";
+import { RadiantLogicStack } from "./radiant-logic-stack";
 
 /**
  * Main stack to deploy the solution.
@@ -19,7 +17,7 @@ export class MainStack extends cdk.Stack {
 
   /**
    * Constructor of the main solution stack.
-   * 
+   *
    * @param scope - Parent of this stack.
    * @param id - Construct ID of this stack.
    * @param props - Properties of this stack.
@@ -90,12 +88,12 @@ export class MainStack extends cdk.Stack {
 
     if (Config.Current.Immuta.Deploy) {
       immutaStack = new ImmutaStack(eksClusterStack, mainId('immuta-stack'), {
-        env: props.env, 
+        env: props.env,
         prefix: commonName,
         vpc: dataFabricCoreStack.vpc,
         securityGroups: [eksClusterStack.getClusterInfo().cluster.clusterSecurityGroup],
         partition: partition,
-        cluster: eksClusterStack.getClusterInfo().cluster, 
+        cluster: eksClusterStack.getClusterInfo().cluster,
         lambdaPlatformRole: lambdaPlatformRole,
         hostedZoneId: dataFabricCoreStack.privateZone.hostedZoneId,
         immuta: {
@@ -122,15 +120,15 @@ export class MainStack extends cdk.Stack {
 
       eksClusterStack.addDependency(immutaStack)
     }
-    
+
     if (Config.Current.RadiantLogic.Deploy) {
       radiantlogicStack = new RadiantLogicStack(eksClusterStack, mainId('radiantlogic-stack'), {
-        env: props.env, 
+        env: props.env,
         prefix: commonName,
         vpc: dataFabricCoreStack.vpc,
         securityGroups: [eksClusterStack.getClusterInfo().cluster.clusterSecurityGroup],
         partition: partition,
-        cluster: eksClusterStack.getClusterInfo().cluster, 
+        cluster: eksClusterStack.getClusterInfo().cluster,
         lambdaPlatformRole: lambdaPlatformRole,
         domain: Config.Current.Domain,
         hostedZoneId: dataFabricCoreStack.privateZone.hostedZoneId,
@@ -172,20 +170,20 @@ export class MainStack extends cdk.Stack {
    */
   private createCdkSuppressions() {
     CdkNagSuppressions.createStackCdkNagSuppressions(
-      this, 
-      'AwsSolutions-L1', 
+      this,
+      'AwsSolutions-L1',
       'Suppressing all Lambda functions not using latest runtime version',
     );
 
     CdkNagSuppressions.createStackCdkNagSuppressions(
-      this, 
-      'AwsSolutions-EKS1', 
+      this,
+      'AwsSolutions-EKS1',
       'Suppressing K8s public API endpoint as configuration is external',
     );
 
     CdkNagSuppressions.createStackCdkNagSuppressions(
-      this, 
-      'CdkNagValidationFailure', 
+      this,
+      'CdkNagValidationFailure',
       'Suppressing warnings against not providing CIDR block to deploy VPC',
     );
 

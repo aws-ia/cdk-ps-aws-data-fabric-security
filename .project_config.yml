@@ -10,6 +10,8 @@ static_tests:
 functional_tests:
   #Uncomment line below (dockerfile:)Update
   #Dockerfile to add any tooling needed in functional_tests
+  github_permissions:
+    contents: write
   enable_docker: true
   dockerfile: .project_automation/functional_tests/Dockerfile
   entrypoint: .project_automation/functional_tests/entrypoint.sh

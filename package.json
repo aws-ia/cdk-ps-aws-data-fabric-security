@@ -34,7 +34,7 @@
   "dependencies": {
     "@aws-cdk/lambda-layer-kubectl-v27": "^2.1.0",
     "@aws-quickstart/eks-blueprints": "1.14.0",
-    "aws-cdk-lib": "2.132.1",
+    "aws-cdk-lib": "^2.132.0",
     "cdk-nag": "^2.28.63",
     "constructs": "^10.3.0",
     "eslint": "^8.57.0",

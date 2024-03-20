@@ -49,7 +49,7 @@ npm install -g aws-cdk
        echo 'Starting CDK-NAG Checks'
        cp ${PROJECT_PATH}/package.json ${PROJECT_PATH}/package.json.org
        echo "Install Packages"
-       npm install
+       npm install --legacy-peer-deps
           if  npm ls | grep cdk-nag >> /dev/null; then
           	echo  "CDK-NAG Present"
           else

@@ -1,4 +1,4 @@
-AWSAccountID: "123456789012"
+AWSAccountID: "533267026549"
 AWSRegion: "us-east-1"
 
 Domain: "company.com"
@@ -11,7 +11,7 @@ Networking:
 
 EKS:
   ClusterName: "data-fabric-security-eks-cluster"
-  EKSAdminRole: "arn:aws-us-gov:iam::123456789012:role/aws-service-role/eks.amazonaws.com/EKSAdminRole"
+  EKSAdminRole: "arn:aws:iam::533267026549:role/EKSAdminRole"
   EKSEndpointAccess: "PRIVATE"      # Default: "" (Valid inputs are "PUBLIC", "PRIVATE", or "" for both)
   InstanceType: "m5.large"                 # Default: "m5.large"
   ClusterSize: 3

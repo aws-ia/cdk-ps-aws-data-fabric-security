@@ -11,6 +11,7 @@ vendor/
 .yarn/
 cdk.out/
 package-lock.json
+index.html
 
 # Common test paths
 test/

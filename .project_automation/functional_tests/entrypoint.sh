@@ -39,7 +39,7 @@ cd ${PROJECT_PATH}
 ## Install AWS CDK
 npm install -g aws-cdk
 
-## Install Python Requirements if Python project
+## Install Python Requirements if Python project. Install NPM packages if Node based.
  if [ -f ${PROJECT_PATH}/requirements.txt ];
    then
      echo "Installing python requirements"

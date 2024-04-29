@@ -83,23 +83,47 @@ set +e
 overrides=$(aws secretsmanager get-secret-value --secret-id $secret_name --query SecretString --output text --region $secret_region)
 # convert the JSON string to YAML and save it to a file
 if [ "$?" -eq 0 ]; then
-  cp cdk.json cdk.json.org
+  mv cdk.json cdk.json.org
   echo "$overrides" > cdk.json
 fi
 set -e
 ##----------------------------------------------------
 
+# Pull in dev.yml config or similar
+secret_name=$(cat ${BASE_PATH}/task_metadata.json |  jq '.project | .DEVCONFIG_OVERRIDE_NAME')
+secret_region=$(cat ${BASE_PATH}/task_metadata.json |  jq '.project | .DEVCONFIG_OVERRIDE_REGION')
+set +e
+overrides=$(aws secretsmanager get-secret-value --secret-id $secret_name --query SecretString --output text --region $secret_region)
+# convert the JSON string to YAML and save it to a file
+if [ "$?" -eq 0 ]; then
+  mv ${PROJECT_PATH}/config/dev.yaml ${PROJECT_PATH}/config/dev.yaml.org
+  echo "$overrides" > ${PROJECT_PATH}/config/dev.yaml
+fi
+set -e
 
+# Detect and launch scripts
+if [ -f ${PROJECT_PATH}/*-install.sh ]; then
+  ## Deploy Project
+  ./dfs-solution-install.sh
+else
+  ## Deploy Project
+  npx cdk deploy --verbose --all --require-approval never --no-notices
+fi
 
-## Deploy Project
-#export CDK_DEFAULT_ACCOUNT=169121843828
-npx cdk deploy --verbose --all --require-approval never --no-notices
-
-
-## Tear down the Stack
-npx cdk destroy --verbose --all --force --profile default --no-notices
+if [ -f ${PROJECT_PATH}/*-uninstall.sh ]; then
+  ./dfs-solution-uninstall.sh
+else
+  ## Tear down the Stack
+  npx cdk destroy --verbose --all --force --profile default --no-notices
+fi
 
 ## Cleanup from E2E
+## Cleaning up Dev config file
+if [ -f ${PROJECT_PATH}/config/dev.yaml]; then
+  rm -f ${PROJECT_PATH}/config/dev.yaml
+  mv ${PROJECT_PATH}/config/dev.yaml.org ${PROJECT_PATH}/config/dev.yaml
+fi
+## Cleaning up package.json
 if [ -f ${PROJECT_PATH}/package.json ];
   then
     rm -rf node_modules && rm -f package-lock.json

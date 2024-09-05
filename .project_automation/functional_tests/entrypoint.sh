@@ -97,9 +97,11 @@ overrides=$(aws secretsmanager get-secret-value --secret-id $secret_name --query
 # convert the JSON string to YAML and save it to a file
 if [ "$?" -eq 0 ]; then
   mv ${PROJECT_PATH}/config/dev.yaml ${PROJECT_PATH}/config/dev.yaml.org
-  echo "$overrides" > ${PROJECT_PATH}/config/dev.yaml
+  echo "$overrides" > ${PROJECT_PATH}/config/dev.json
 fi
 set -e
+
+cfn-flip -y ${PROJECT_PATH}/config/dev.json ${PROJECT_PATH}/config/dev.yaml
 
 # Detect and launch scripts
 if [ -f ${PROJECT_PATH}/*-install.sh ]; then

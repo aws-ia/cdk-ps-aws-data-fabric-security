@@ -17,3 +17,6 @@ RUN source ~/.bashrc && npm install -g aws-cdk
 
 ## Install Asciidoctoer
 RUN gem install asciidoctor
+
+## Install CFN Flip
+RUN pip install cfn-flip
